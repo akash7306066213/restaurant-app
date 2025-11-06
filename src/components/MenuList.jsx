@@ -1,7 +1,7 @@
 import { menuData } from "../data/menuData";
 import { FaShoppingCart } from "react-icons/fa";
 import { useState } from "react";
-
+import { useAuth } from "../context/Authcontext";
 export default function MenuList({ category }) {
 
   const items = menuData[category] || [];
@@ -24,9 +24,9 @@ export default function MenuList({ category }) {
 
 
 function MenuCard({ item }) {
-
+  
   const [qty, setQty] = useState(1);
-
+  const { user } = useAuth(); 
   return (
     <div className="group relative bg-white rounded-xl shadow-lg hover:shadow-2xl transition overflow-hidden cursor-pointer">
       
@@ -66,9 +66,14 @@ function MenuCard({ item }) {
         </div>
 
         {/* Add to cart */}
+        {user ? (   
         <button className="bg-[#2BB44A] hover:bg-[#25a043] text-white rounded py-2 font-bold flex items-center justify-center gap-2">
           <FaShoppingCart /> Add to Cart
-        </button>
+        </button>): (
+        <div className="text-center text-red-600 font-semibold">
+          Please login to add items to cart.
+        </div>
+        )}  
       </div>
     </div>
   );
