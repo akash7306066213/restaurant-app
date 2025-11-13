@@ -17,7 +17,7 @@ export const menuData = {
 
   Biryani: [
     { name: "Hyderabadi Biryani", price: 240, img:"https://cdn-icons-png.flaticon.com/512/1998/1998610.png" },
-    { name: "Chicken Biryani", price: 200, img:"https://cdn-icons-png.flaticon.com/512/1998/1998606.png" },
+    { name: "Chicken Biryani", price: 200, img:"https://res.cloudinary.com/ds8jfvgu2/image/upload/v1762534824/k1n836lnr0cmgo2hzcze.jpg" },
     { name: "Mutton Biryani", price: 300, img:"https://cdn-icons-png.flaticon.com/512/1998/1998605.png" },
     { name: "Veg Biryani", price: 180, img:"https://cdn-icons-png.flaticon.com/512/1998/1998613.png" },
   ],

@@ -24,7 +24,7 @@ export default function AuthProvider({ children }) {
     localStorage.setItem("email", data.email);
     setUser(data);
   };
-
+   console.log("User in context:", user);
   const logout = () => {
     localStorage.clear();
     setUser(null);

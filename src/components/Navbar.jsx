@@ -1,19 +1,11 @@
 import React from "react";
 import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { useAuth } from "../context/Authcontext";
-import { smoothScrollTo } from "../utils/smoothScroll"; // if you created it
+import { useCart } from "../context/CartContext";
 
-function Navbar({ openLogin, openProfile, cartCount = 0 }) {
+export default function Navbar({ openLogin, openProfile, openCart }) {
   const { user } = useAuth();
-
-  const scrollToMenu = () => {
-    const menu = document.getElementById("menu");
-    if (menu) {
-      // use native smooth or your custom helper
-      // menu.scrollIntoView({ behavior: "smooth" });
-      smoothScrollTo ? smoothScrollTo(menu, 1200) : menu.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const { cartItems } = useCart();
 
   return (
     <header className="fixed top-0 left-0 w-full bg-[#FF6B35] text-white shadow-lg z-50">
@@ -22,21 +14,27 @@ function Navbar({ openLogin, openProfile, cartCount = 0 }) {
 
         <nav className="flex items-center gap-8 font-semibold">
           <button className="hover:text-black transition">Home</button>
-          <button onClick={scrollToMenu} className="hover:text-black transition">Menu</button>
+          <button className="hover:text-black transition">Menu</button>
 
-          <button className="relative flex items-center gap-2 hover:text-black transition">
+          {/* ✅ Trigger passed down from Home */}
+          <button
+            onClick={openCart}
+            className="relative flex items-center gap-2 hover:text-black transition"
+          >
             <FaShoppingCart size={22} />
             Cart
-            {cartCount > 0 && (
+            {cartItems.length > 0 && (
               <span className="absolute -top-2 -right-3 bg-white text-[#FF6B35] text-xs font-bold px-2 py-0.5 rounded-full">
-                {cartCount}
+                {cartItems.length}
               </span>
             )}
           </button>
 
-          {/* If logged in -> show Profile icon; else Login */}
           {user ? (
-            <button onClick={openProfile} className="flex items-center gap-2 hover:text-black transition">
+            <button
+              onClick={openProfile}
+              className="flex items-center gap-2 hover:text-black transition"
+            >
               <FaUserCircle size={26} />
               {user.name ?? "Profile"}
             </button>
@@ -53,4 +51,3 @@ function Navbar({ openLogin, openProfile, cartCount = 0 }) {
     </header>
   );
 }
-export default Navbar;

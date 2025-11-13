@@ -1,8 +1,9 @@
 import { useState } from "react";
 import client from "../api/client";
 import { useAuth } from "../context/Authcontext";
-
+import { useNavigate } from "react-router-dom";
 export default function LoginModal({ close }) {
+  const navigate = useNavigate();
   const { login } = useAuth();
   const [isLogin, setIsLogin] = useState(true);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -11,29 +12,59 @@ export default function LoginModal({ close }) {
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleLogin = async () => {
-    setErr(""); setLoading(true);
-    try {
-      const { data } = await client.post("/api/auth/login", {
-        email: form.email,
-        password: form.password,
-      });
-      // data = { role, name, id, email, token }
-      login(data);
-      // Role handling
-      if (data.role === "ROLE_CUSTOMER") {
-        // stay on home, just close modal
-        close();
-      } else {
-        // if admin, you can navigate to admin page later
-        close();
-      }
-    } catch (e) {
-      setErr(e?.response?.data?.message || "Login failed");
-    } finally {
-      setLoading(false);
+  // const handleLogin = async () => {
+  //   setErr(""); setLoading(true);
+  //   try {
+  //     const { data } = await client.post("/api/auth/login", {
+  //       email: form.email,
+  //       password: form.password,
+  //     });
+  //     // data = { role, name, id, email, token }
+  //     login(data);
+  //     // Role handling
+  //     if (data.role === "ROLE_CUSTOMER") {
+  //       // stay on home, just close modal
+  //       close();
+  //     } else {
+  //       // if admin, you can navigate to admin page later
+  //       navigate("/admin");
+  //       close();
+  //     }
+  //   } catch (e) {
+  //     setErr(e?.response?.data?.message || "Login failed");
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
+ const handleLogin = async () => {
+  setErr(""); 
+  setLoading(true);
+
+  try {
+    const res = await client.post("/api/auth/login", {
+      email: form.email,
+      password: form.password,
+    });
+
+    const data = res.data;  
+    
+    login(data);  // store in context + localstorage
+
+    // role based redirect
+    if (data.role === "ROLE_ADMIN") {
+      close(); 
+      navigate("/admin");
+    } else {
+      close(); // customer just close modal 
     }
-  };
+
+  } catch (e) {
+    console.log(e);
+    setErr(e?.response?.data?.message || "Login failed");
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleSignup = async () => {
   setErr(""); setLoading(true);

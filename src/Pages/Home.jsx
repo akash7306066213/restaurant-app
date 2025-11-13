@@ -1,22 +1,37 @@
-import React, { useState } from 'react'
-import Navbar from '../components/Navbar'
-import Banner from '../components/Banner'
-import Category from '../components/Category'
-import MenuList from '../components/MenuList'
+import React, { useState } from "react";
+import Navbar from "../components/Navbar";
+import Banner from "../components/Banner";
+import Category from "../components/Category";
+import MenuList from "../components/MenuList";
+import CartModal from "../components/CartModal";
 
 function Home({ openLogin, openProfile }) {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categoryName, setCategoryName] = useState("");
+  const [showCart, setShowCart] = useState(false); // ✅ Controls cart modal
 
-  // define the state for category
-  const [selectedCategory, setSelectedCategory] = useState("Pizza");
+  const handleSelectCategory = (id, name) => {
+    setSelectedCategory(id);
+    setCategoryName(name);
+  };
 
   return (
     <div>
-       <Navbar openLogin={openLogin} openProfile={openProfile} />
-      <Banner/>
-      <Category onSelectCategory={setSelectedCategory} />
-      <MenuList category={selectedCategory} />
+      {/* ✅ Pass openCart to Navbar */}
+      <Navbar
+        openLogin={openLogin}
+        openProfile={openProfile}
+        openCart={() => setShowCart(true)}
+      />
+
+      <Banner />
+      <Category onSelectCategory={handleSelectCategory} />
+      <MenuList categoryId={selectedCategory} categoryName={categoryName} />
+
+      {/* ✅ Render CartModal here */}
+      {showCart && <CartModal close={() => setShowCart(false)} />}
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;
