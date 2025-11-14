@@ -34,7 +34,8 @@ export default function CartModal({ close }) {
       // 2️⃣ Initialize Razorpay Checkout
       const options = {
         key: orderData.key,
-        amount: orderData.amount * 100, // in paise
+        amount: orderData.amount,
+ // in paise
         currency: orderData.currency,
         name: "FoodHub",
         description: "Payment for your order",

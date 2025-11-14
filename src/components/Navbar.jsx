@@ -3,7 +3,7 @@ import { FaShoppingCart, FaUserCircle } from "react-icons/fa";
 import { useAuth } from "../context/Authcontext";
 import { useCart } from "../context/CartContext";
 
-export default function Navbar({ openLogin, openProfile, openCart }) {
+export default function Navbar({ openLogin, openProfile, openCart, scrollToMenu }) {
   const { user } = useAuth();
   const { cartItems } = useCart();
 
@@ -14,7 +14,9 @@ export default function Navbar({ openLogin, openProfile, openCart }) {
 
         <nav className="flex items-center gap-8 font-semibold">
           <button className="hover:text-black transition">Home</button>
-          <button className="hover:text-black transition">Menu</button>
+         <button onClick={scrollToMenu} className="hover:text-black transition">
+         Menu
+        </button>
 
           {/* ✅ Trigger passed down from Home */}
           <button

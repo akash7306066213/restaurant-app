@@ -2,6 +2,7 @@ import { useState } from "react";
 import Users from "../admin/Users";
 import MenuItems from "../admin/MenuItems";
 import Categories from "../admin/Categories";
+import AdminOrdersPage from "../admin/AdminOrdersPage";   // ✅ ADDED
 import { useAuth } from "../context/Authcontext";
 import AdminNavbar from "../admin/AdminNavbar";
 import AddMenuModal from "../admin/AddMenuModal";
@@ -58,6 +59,17 @@ export default function AdminDashboard() {
           >
             Manage Categories
           </button>
+
+          {/* ✅ NEW ORDERS BUTTON */}
+          <button 
+            onClick={() => setPage("orders")}
+            className={`block w-full text-left px-5 py-3 font-semibold ${
+              page === "orders" ? "bg-white text-black" : ""
+            }`}
+          >
+            View Orders
+          </button>
+
         </div>
 
         {/* RIGHT CONTENT */}
@@ -65,6 +77,7 @@ export default function AdminDashboard() {
           {page === "users" && <Users sidebarOpen={sidebarOpen} />}
           {page === "menu" && <MenuItems />}
           {page === "category" && <Categories />}
+          {page === "orders" && <AdminOrdersPage />}  {/* ✅ ADDED */}
         </div>
       </div>
 
